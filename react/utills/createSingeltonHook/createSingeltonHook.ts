@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react'
 
-type singeltonValue<HookValue> = {
+type UpdateValue<T> = T | ((prev: T) => T)
+type CustomHook<HookValue, ReturnValue, CustomProps extends any[]> = (singeltonValue: SingeltonValue<HookValue>, ...props: CustomProps) => ReturnValue;
+type SingeltonValue<HookValue> = {
   state: HookValue,
-  updateState: (value: updateValue<HookValue>) => void
+  updateState: (value: UpdateValue<HookValue>) => void
 };
 
-type updateValue<T> = T extends any ? (T | ((prev: T) => T)) : never
-
-type customHook<HookValue, ReturnValue, CustomProps extends any[]> = (singeltonValue: singeltonValue<HookValue>, ...props: CustomProps) => ReturnValue;
-
-export default <HookValue, ReturnValue, CustomProps extends any[]>(customHook: customHook<HookValue, ReturnValue, CustomProps>, initValue: HookValue) => {
+export default <HookValue, ReturnValue, CustomProps extends any[]>(customHook: CustomHook<HookValue, ReturnValue, CustomProps>, initValue: HookValue) => {
   let updaters: React.Dispatch<React.SetStateAction<HookValue>>[] = [];
   let singeltonValue = initValue;
   let hookValue: ReturnValue;
   let mounted = false;
 
-  const updateSingeltonValue = (updateValue: updateValue<HookValue>) => {
-    singeltonValue = typeof updateValue === "function" ? updateValue(singeltonValue) : updateValue
+  const updateSingeltonValue = (updateValue: UpdateValue<HookValue>) => {
+    singeltonValue = updateValue instanceof Function ? updateValue(singeltonValue) : updateValue
     updaters.forEach(cb => cb(() => singeltonValue))
   }
 
