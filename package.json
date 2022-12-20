@@ -1,0 +1,14 @@
+{
+  "name": "good-to-have",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/MrPorky/good-to-have.git",
+  "author": "♥MrPork♥ <5321067+MrPorky@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "react": "^18.2.0",
+    "typescript": "^4.9.4"
+  }
+}
