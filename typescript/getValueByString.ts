@@ -14,5 +14,13 @@ export type TypeFromPath<T, K extends string> =
   K0 extends keyof T ? TypeFromPath<T[K0], KR> : never
   : never
 
-// Example: Get Property Value
-declare function getPropertyValue<T extends Record<string, any>, Path extends PropertyStringPath<T>>(obj: T, path: Path): TypeFromPath<T, Path>
+export function getValueByString<T extends Record<string, any>, Path extends PropertyStringPath<T>>(object: T, path: Path): TypeFromPath<T, Path> {
+  const parts = path.split(".");
+  return parts.reduce((result: any, key) => {
+    if (result !== undefined && result[key]) {
+      return result[key];
+    }
+
+    return undefined;
+  }, object) as any;
+}
