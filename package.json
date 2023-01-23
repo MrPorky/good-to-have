@@ -6,6 +6,9 @@
   "author": "♥MrPork♥ <5321067+MrPorky@users.noreply.github.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "set-env-and-run-command": "export TIMING=1 || set TIMING=1 && command",
+  },
   "devDependencies": {
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
